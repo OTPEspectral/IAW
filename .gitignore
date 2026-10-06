@@ -1,1 +1,8 @@
-prueba1.txt
+.BACKUP.
+.BASE.
+.LOCAL.
+.REMOTE.
+BACKUP.txt
+BASE.txt
+LOCAL.txt
+REMOTE.txt
