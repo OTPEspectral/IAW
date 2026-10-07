@@ -30,4 +30,5 @@ Files:
 	Require all denied: Bloquea el acceso al archivo confidencial.
 	Al intentar acceder a él, saltará un error 403.
 
-
+Ahora modificamos el archivo httpd.conf de apache añadiendo "Include conf/extra/httpd-vhosts.conf
+para decirle a apache los VirtualHosts que queremos añadir.
