@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  #Proxy Inverso para proteger a apache2
+  proxy:
+    image: nginx:alpine
+    container_name: proxy_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - web
+  #Apache2 montado con una imagen personalizada con nano ya instalado
+  #Quitamos ports para dejar de acceder a apache2 a través de él mismo,
+  #pero puerteamos tanto HTTP (:80) y HTTPS (:443) a Nginx para que si recibe
+  #una petición desde HTTP, sea capaz de redirigirla a HTTPS
+  web:
+    image: apache2i:latest
+    container_name: servidor_apache
+    restart: unless-stopped
+    volumes:
+     - ./apache2:/etc/apache2
+     - ./www:/var/www
