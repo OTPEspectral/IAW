@@ -19,7 +19,8 @@ services:
   #pero puerteamos tanto HTTP (:80) y HTTPS (:443) a Nginx para que si recibe
   #una petición desde HTTP, sea capaz de redirigirla a HTTPS
   web:
-    image: apache2i:latest
+  #apache2i en mi pc local, ubuntu/apache2:latest en demás ordenadores
+    image: ubuntu/apache2:latest
     container_name: servidor_apache
     restart: unless-stopped
     volumes:
