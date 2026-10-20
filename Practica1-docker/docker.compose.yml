@@ -1,9 +1,0 @@
-version: '3.8'
-
-services:
-  web:
-    image: apache2i:latest
-    container_name: servidor_apache
-    ports:
-      - "8110:80"
-    restart: unless-stopped
