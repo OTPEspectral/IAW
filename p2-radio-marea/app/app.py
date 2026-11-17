@@ -12,7 +12,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1)   # 👀 se fía de UN
 
 # ✍️ B2 · La llave de las sesiones (UD5, apartado 7.3). Así viene: escrita aquí, corta y conocida por todos.
 #         Que salga del entorno (SECRET_KEY, en servidor/radio.env). Y si no está, que la API no arranque.
-app.secret_key = "cambiame"
+app.secret_key = os.environ["SECRET_KEY"]
 
 
 # 👀 Datos de prueba, para el bloque B (todavía sin base de datos). En el C3 dejan de usarse.
@@ -58,7 +58,6 @@ def podcasts():
     # 👀 La lista, para la app del móvil: /api/podcasts  o  /api/podcasts?buscar=faro
     return jsonify(leer_podcasts(request.args.get("buscar", "")))
 
-
 # ✍️ B4 · Un podcast: /api/podcasts/2 (UD5, apartados 5 y 8).
 #         - Si existe: ese podcast en JSON (búscalo en lo que da leer_podcasts()).
 #         - Si no existe: {"error": "No existe ese podcast"} con un 404, también en JSON.
@@ -78,6 +77,6 @@ def entrar():
 
 @app.route("/api/estudio")
 def estudio():
-    # ✍️ B2 · El panel del estudio: solo para quien ha entrado (lleva la pulsera, es decir, «locutor» en la sesión).
-    #         Sin pulsera: {"error": "Primero, POST /api/entrar"} con un 401. Ahora entra cualquiera.
+    if "locutor" not in session:
+        return jsonify({"error": "No autorizado"}), 401
     return jsonify({"locutor": session.get("locutor"), "siguiente": "Noticias del puerto, a las 13:00"})
