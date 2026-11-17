@@ -63,7 +63,13 @@ def podcasts():
 #         - Si no existe: {"error": "No existe ese podcast"} con un 404, también en JSON.
 #         - Solo GET: con cualquier otro método, 405 (eso lo hace Flask solo, si la ruta está bien declarada).
 #         - /api/podcasts/abc (no es un número) también es un 404.
-
+@app.route("/api/podcasts/<int:id>")
+def podcast(id):
+    for p in leer_podcasts():
+        if p["id"] == id:
+            return jsonify(p)
+    return jsonify({"error": "No existe ese podcast"}), 404
+# Aqui me he tenido que ayudar de la IA para la creación del codigo porque me estaba dando muchos fallos
 
 @app.route("/api/entrar", methods=["POST"])
 def entrar():
